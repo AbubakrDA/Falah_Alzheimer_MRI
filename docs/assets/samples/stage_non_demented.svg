@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#121824"/>
+      <stop offset="100%" stop-color="#080b10"/>
+    </radialGradient>
+    <radialGradient id="parenchymaNorm" cx="50%" cy="48%" r="46%">
+      <stop offset="0%" stop-color="#94a3b8"/>
+      <stop offset="65%" stop-color="#475569"/>
+      <stop offset="90%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </radialGradient>
+    <linearGradient id="ventricleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#05070a"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <filter id="mriBlur" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="1.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background Card -->
+  <rect width="400" height="480" rx="16" fill="url(#bgGlow)" stroke="#1e293b" stroke-width="2"/>
+  
+  <!-- Header Badge -->
+  <rect x="20" y="20" width="150" height="26" rx="6" fill="#065f46" fill-opacity="0.3" stroke="#10b981" stroke-width="1.2"/>
+  <text x="30" y="37" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" fill="#34d399">CDR 0.0 • NORMAL</text>
+
+  <rect x="270" y="20" width="110" height="26" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="282" y="37" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#94a3b8">TRAIN / TEST</text>
+
+  <!-- Title & Subtitle -->
+  <text x="20" y="72" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="800" fill="#f8fafc">Non-Demented Stage</text>
+  <text x="20" y="90" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b">Cognitively Intact • Preserved Brain Volume</text>
+
+  <!-- MRI Scan Display Window -->
+  <g transform="translate(40, 105)">
+    <!-- Outer Calvarium (Skull & Scalp) -->
+    <ellipse cx="160" cy="155" rx="138" ry="152" fill="#1e293b" stroke="#64748b" stroke-width="3" opacity="0.6"/>
+    <ellipse cx="160" cy="155" rx="134" ry="148" fill="#090d16" stroke="#334155" stroke-width="1.5"/>
+
+    <!-- Brain Parenchyma (Cerebral Cortex) -->
+    <path d="M 160,18 
+             C 230,18 285,75 285,155 
+             C 285,230 230,285 160,285 
+             C 90,285 35,230 35,155 
+             C 35,75 90,18 160,18 Z" 
+          fill="url(#parenchymaNorm)" filter="url(#mriBlur)"/>
+
+    <!-- Sulci / Gyri Fine Textures (Tight normal sulcal spaces) -->
+    <path d="M 60,130 Q 90,140 110,120 M 260,130 Q 230,140 210,120 
+             M 70,180 Q 100,170 120,190 M 250,180 Q 220,170 200,190
+             M 160,35 L 160,85 M 160,225 L 160,275" 
+          stroke="#1e293b" stroke-width="2.5" fill="none" opacity="0.7"/>
+
+    <!-- Interhemispheric Fissure -->
+    <line x1="160" y1="25" x2="160" y2="280" stroke="#05070a" stroke-width="2.5" opacity="0.8"/>
+
+    <!-- Normal Slender Lateral Ventricles (Frontal & Occipital Horns) -->
+    <!-- Left Ventricle -->
+    <path d="M 152,110 C 150,130 138,155 142,175 C 145,185 152,175 153,155 C 154,135 155,115 152,110 Z" 
+          fill="url(#ventricleGrad)" stroke="#020617" stroke-width="1.5"/>
+    <!-- Right Ventricle -->
+    <path d="M 168,110 C 170,130 182,155 178,175 C 175,185 168,175 167,155 C 166,135 165,115 168,110 Z" 
+          fill="url(#ventricleGrad)" stroke="#020617" stroke-width="1.5"/>
+
+    <!-- Third Ventricle (Slit-like) -->
+    <line x1="160" y1="145" x2="160" y2="175" stroke="#020617" stroke-width="2.5"/>
+
+    <!-- Intact Medial Temporal Lobes & Hippocampus -->
+    <ellipse cx="122" cy="195" rx="14" ry="9" fill="#64748b" opacity="0.85"/>
+    <ellipse cx="198" cy="195" rx="14" ry="9" fill="#64748b" opacity="0.85"/>
+    
+    <!-- Orientation Markers -->
+    <text x="156" y="14" font-family="monospace" font-size="11" font-weight="700" fill="#64748b">A</text>
+    <text x="156" y="300" font-family="monospace" font-size="11" font-weight="700" fill="#64748b">P</text>
+    <text x="18" y="158" font-family="monospace" font-size="11" font-weight="700" fill="#64748b">R</text>
+    <text x="296" y="158" font-family="monospace" font-size="11" font-weight="700" fill="#64748b">L</text>
+  </g>
+
+  <!-- Clinical Annotations Footer -->
+  <rect x="20" y="415" width="360" height="50" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+  <circle cx="36" cy="433" r="5" fill="#10b981"/>
+  <text x="50" y="437" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">Ventricles: Normal slender morphology</text>
+  <circle cx="36" cy="451" r="5" fill="#10b981"/>
+  <text x="50" y="455" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#94a3b8">Hippocampal Volume: Preserved (>95% age-matched)</text>
+</svg>

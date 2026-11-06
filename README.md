@@ -16,19 +16,20 @@ The platform provides a unified data governance layer seamlessly integrating bot
 
 ## 📑 Table of Contents
 1. [Key Highlights & Capabilities](#-key-highlights--capabilities)
-2. [System Architecture](#-system-architecture)
-3. [Cohort Provenance & Dataset Comparison](#-cohort-provenance--dataset-comparison)
-4. [Clinical Dementia Rating (CDR) Mapping](#-clinical-dementia-rating-cdr-mapping)
-5. [Participant-Level Splitting & Leakage Prevention](#-participant-level-splitting--leakage-prevention)
-6. [Supported Deep Learning Backbones](#-supported-deep-learning-backbones)
-7. [Clinical Explainability Engines](#-clinical-explainability-engines)
-8. [Interactive Streamlit Multi-Page Interface](#-interactive-streamlit-multi-page-interface)
-9. [FastAPI REST Service & Documentation](#-fastapi-rest-service--documentation)
-10. [Docker & Containerized Deployment](#-docker--containerized-deployment)
-11. [Installation & Local Setup](#-installation--local-setup)
-12. [Testing & Verification](#-testing--verification)
-13. [GitHub Repository & CI/CD](#-github-repository--cicd)
-14. [Medical & Ethical Prototype Disclaimer](#-medical--ethical-prototype-disclaimer)
+2. [Application Flowchart & System Architecture](#-application-flowchart--system-architecture)
+3. [Representative Train & Test MRI Image Gallery](#-representative-train--test-mri-image-gallery)
+4. [Cohort Provenance & Dataset Comparison](#-cohort-provenance--dataset-comparison)
+5. [Clinical Dementia Rating (CDR) Mapping](#-clinical-dementia-rating-cdr-mapping)
+6. [Participant-Level Splitting & Leakage Prevention](#-participant-level-splitting--leakage-prevention)
+7. [Supported Deep Learning Backbones](#-supported-deep-learning-backbones)
+8. [Clinical Explainability Engines](#-clinical-explainability-engines)
+9. [Interactive Streamlit Multi-Page Interface](#-interactive-streamlit-multi-page-interface)
+10. [FastAPI REST Service & Documentation](#-fastapi-rest-service--documentation)
+11. [Docker & Containerized Deployment](#-docker--containerized-deployment)
+12. [Installation & Local Setup](#-installation--local-setup)
+13. [Testing & Verification](#-testing--verification)
+14. [GitHub Repository & CI/CD](#-github-repository--cicd)
+15. [Medical & Ethical Prototype Disclaimer](#-medical--ethical-prototype-disclaimer)
 
 ---
 

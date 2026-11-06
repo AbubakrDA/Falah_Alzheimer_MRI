@@ -1,0 +1,56 @@
+{
+  "builder_name": "parquet",
+  "citation": "",
+  "config_name": "default",
+  "dataset_name": "alzheimer_mri",
+  "dataset_size": 28302797,
+  "description": "",
+  "download_checksums": {
+    "hf://datasets/Falah/Alzheimer_MRI@daac24f9597236b45837d82f7eb9c9ad1f8c60c8/data/train-00000-of-00001-c08a401c53fe5312.parquet": {
+      "num_bytes": 22643887,
+      "checksum": null
+    },
+    "hf://datasets/Falah/Alzheimer_MRI@daac24f9597236b45837d82f7eb9c9ad1f8c60c8/data/test-00000-of-00001-44110b9df98c5585.parquet": {
+      "num_bytes": 5645961,
+      "checksum": null
+    }
+  },
+  "download_size": 28289848,
+  "features": {
+    "image": {
+      "_type": "Image"
+    },
+    "label": {
+      "names": [
+        "Mild_Demented",
+        "Moderate_Demented",
+        "Non_Demented",
+        "Very_Mild_Demented"
+      ],
+      "_type": "ClassLabel"
+    }
+  },
+  "homepage": "",
+  "license": "",
+  "size_in_bytes": 56592645,
+  "splits": {
+    "train": {
+      "name": "train",
+      "num_bytes": 22638746,
+      "num_examples": 5120,
+      "dataset_name": "alzheimer_mri"
+    },
+    "test": {
+      "name": "test",
+      "num_bytes": 5664051,
+      "num_examples": 1280,
+      "dataset_name": "alzheimer_mri"
+    }
+  },
+  "version": {
+    "version_str": "0.0.0",
+    "major": 0,
+    "minor": 0,
+    "patch": 0
+  }
+}

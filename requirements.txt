@@ -1,0 +1,22 @@
+# NeuroVision 2.0 Dependencies
+torch>=2.0.0
+torchvision>=0.15.0
+datasets>=2.14.0
+scikit-learn>=1.2.0
+numpy>=1.24.0
+pandas>=2.0.0
+openpyxl>=3.1.0
+pillow>=9.5.0
+matplotlib>=3.7.0
+opencv-python>=4.7.0
+tqdm>=4.65.0
+# Web UI & Application
+streamlit>=1.25.0
+
+# API & Deployment
+fastapi>=0.100.0
+uvicorn[standard]>=0.22.0
+python-multipart>=0.0.6
+pydantic>=2.0.0
+httpx>=0.24.0
+nibabel>=5.1.0

@@ -1,0 +1,35 @@
+# Git & version control
+.git/
+.github/
+.gitignore
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+
+# Large raw archive files (do not bake massive archives into image)
+data/oasis1/raw/*.tar.gz
+data/oasis1/raw/*.zip
+data/oasis1/extracted/
+
+# Temporary and local artifacts
+.idea/
+.vscode/
+*.swp
+*.bak
+*.tmp
+.DS_Store
+Thumbs.db
+

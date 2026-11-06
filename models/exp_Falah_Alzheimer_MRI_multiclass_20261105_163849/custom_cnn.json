@@ -1,0 +1,43 @@
+{
+  "architecture": "custom_cnn",
+  "num_classes": 4,
+  "classes": [
+    "Mild_Demented",
+    "Moderate_Demented",
+    "Non_Demented",
+    "Very_Mild_Demented"
+  ],
+  "task": "multiclass",
+  "dataset_name": "Falah_Alzheimer_MRI",
+  "history": {
+    "loss": [
+      1.2624,
+      0.8911,
+      0.6358,
+      0.418,
+      0.303
+    ],
+    "accuracy": [
+      0.5165,
+      0.6272,
+      0.7192,
+      0.8195,
+      0.917
+    ],
+    "val_loss": [
+      1.3337,
+      0.946,
+      0.6804,
+      0.4665,
+      0.3802
+    ],
+    "val_accuracy": [
+      0.48,
+      0.5999,
+      0.699,
+      0.7876,
+      0.8912
+    ]
+  },
+  "framework": "simulation"
+}

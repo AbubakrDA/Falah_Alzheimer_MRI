@@ -1,0 +1,85 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# PyTest / Coverage
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Large Model weights (keep repo light; models stored via releases/checkpoints)
+# Preserve directory structure
+models/**/*.pt
+models/**/*.pth
+models/**/*.keras
+models/**/*.h5
+!models/.gitkeep
+
+# Large Raw Datasets (Do NOT commit huge neuroimaging archives)
+data/oasis1/raw/*.tar.gz
+data/oasis1/raw/*.zip
+data/oasis1/extracted/OAS1_*
+data/oasis1/extracted/**/*.img
+data/oasis1/extracted/**/*.hdr
+data/oasis1/extracted/**/*.nii
+data/oasis1/extracted/**/*.nii.gz
+
+# IDE / Editor configuration
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment variables & secrets
+.env
+.env.local
+.env.*.local
+

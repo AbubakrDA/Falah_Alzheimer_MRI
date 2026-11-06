@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # ==============================================================================
+  # SERVICE 1: FASTAPI REST BACKEND
+  # ==============================================================================
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: neurovision-api
+    restart: unless-stopped
+    command: [ "uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8000" ]
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PORT=8000
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./experiments:/app/experiments
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:8000/api/v1/health || exit 1" ]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - neurovision-network
+
+  # ==============================================================================
+  # SERVICE 2: STREAMLIT CLINICAL & RESEARCH DASHBOARD
+  # ==============================================================================
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: neurovision-web
+    restart: unless-stopped
+    command: [ "streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0" ]
+    ports:
+      - "8501:8501"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - STREAMLIT_SERVER_PORT=8501
+      - STREAMLIT_SERVER_ADDRESS=0.0.0.0
+      - NEUROVISION_API_URL=http://api:8000
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./experiments:/app/experiments
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - neurovision-network
+
+networks:
+  neurovision-network:
+    driver: bridge

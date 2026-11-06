@@ -450,3 +450,144 @@ elif nav_mode == "🧠 Clinical Diagnosis & Inference":
                     st.caption("Red/yellow highlights signify the key anatomical features influencing the prediction.")
         else:
             st.info("Awaiting MRI scan upload to run diagnosis.")
+
+# ==============================================================================
+# SECTION 3: SYSTEM FLOWCHART & ARCHITECTURE
+# ==============================================================================
+elif nav_mode == "🗺️ System Flowchart & Architecture":
+    st.header("🗺️ System Flowchart & Architectural Topology")
+    st.write(
+        "Interactive end-to-end operational blueprint of **NeuroVision 2.0**, depicting "
+        "data ingestion, participant-level splitting, preprocessing, multi-backbone training, "
+        "visual explainability, and multi-service deployment."
+    )
+
+    flowchart_mermaid = """
+flowchart TD
+    %% User and Client Interfaces
+    subgraph UI_API["Client and User Interfaces"]
+        streamlit_app["Streamlit Research Studio - 10 Interactive Pages on Port 8501"]
+        fastapi_server["FastAPI REST Microservice - OpenAPI and Swagger on Port 8000"]
+    end
+
+    %% Data Ingestion Layer
+    subgraph DATA_LAYER["Unified Multi-Cohort Ingestion and Governance"]
+        falah_data["Falah Alzheimer MRI - 2D Axial Arrow Slices 6400 Images"]
+        oasis_data["OASIS-1 Cohort - 3D Volumetric T1 NIfTI and Analyze 7.5"]
+        falah_loader["FalahDatasetLoader - Verification and Hash Duplicate Scan"]
+        oasis_loader["OASIS1DatasetLoader - Ingestion and CDR Clinical Mapping"]
+        oasis_manifest["OASIS1ManifestManager - Participant-Level Disjoint 70/15/15 Split"]
+        falah_leakage_warn["Falah Provenance Audit - Slice Leakage Warning"]
+    end
+
+    %% Preprocessing Pipeline
+    subgraph PREPROC["Radiometric Preprocessing and Augmentation Engine"]
+        norm_engine["Intensity Normalization - Min-Max Scaling 0 to 1 or Z-Score"]
+        aug_engine["Spatial Augmentation - Rotations, Flips, and Affine Transforms"]
+        weight_engine["Inverse-Frequency Balancing - Weighted Cross-Entropy Weights"]
+    end
+
+    %% Model Zoo
+    subgraph MODELS["Deep Learning Model Zoo and Baselines"]
+        cnn_model["Custom Medical CNN - 4-Block Conv2D + BatchNorm + LeakyReLU"]
+        resnet_model["ResNet-18 / ResNet-50 - Deep Residual Transfer Learning"]
+        vit_model["Vision Transformer ViT - 16x16 Patch Self-Attention"]
+        sim_engine["Simulation Engine - NumPy Zero-Dependency Baseline"]
+    end
+
+    %% Training & Tracking
+    subgraph TRAIN["Training and Optimization Pipeline"]
+        loss_fn["Loss Functions - Weighted Cross-Entropy and Focal Loss"]
+        optimizer["Optimization - AdamW and Cosine Annealing LR Scheduler"]
+        trainer["UnifiedMRITrainer - Live Metrics Tracking and Early Stopping"]
+        checkpoints[("Model Checkpoints Store - pt, pth, keras, and json in models")]
+    end
+
+    %% Evaluation & Explainability
+    subgraph EVAL_XAI["Diagnostic Evaluation and Explainable AI"]
+        eval_engine["Clinical Evaluation - Confusion Matrix, Sens, Spec, Macro-F1"]
+        roc_engine["Multi-Class ROC Analysis - One-vs-Rest AUC and 95% Bootstrap CI"]
+        gradcam["Grad-CAM Engine - Convolutional Feature Map Gradients"]
+        vit_rollout["ViT Attention Rollout - Multi-Head Attention Propagation"]
+        heatmaps["Radiometric Overlays - Jet and Magma Color Overlays on Slices"]
+    end
+
+    %% Deployment & Infrastructure
+    subgraph DEPLOY["Production Deployment and CI/CD Automation"]
+        docker_compose["Docker Compose Orchestration - Dual Service api 8000 + web 8501"]
+        dockerfile["Multi-Stage Dockerfile - Python 3.11-slim + PyTorch CPU/CUDA"]
+        github_ci["GitHub Actions CI Matrix - Automated Testing on Python 3.11 and 3.12"]
+    end
+
+    %% Flow Connections
+    falah_data --> falah_loader
+    oasis_data --> oasis_loader
+    oasis_loader --> oasis_manifest
+    falah_loader --> falah_leakage_warn
+
+    falah_loader --> norm_engine
+    oasis_manifest --> norm_engine
+    norm_engine --> aug_engine
+    falah_loader --> weight_engine
+
+    aug_engine --> trainer
+    weight_engine --> loss_fn
+    loss_fn --> trainer
+    optimizer --> trainer
+
+    cnn_model --> trainer
+    resnet_model --> trainer
+    vit_model --> trainer
+    sim_engine --> trainer
+
+    trainer --> checkpoints
+    checkpoints --> eval_engine
+    checkpoints --> gradcam
+    checkpoints --> vit_rollout
+
+    eval_engine --> roc_engine
+    gradcam --> heatmaps
+    vit_rollout --> heatmaps
+
+    heatmaps --> streamlit_app
+    heatmaps --> fastapi_server
+    roc_engine --> streamlit_app
+    checkpoints --> fastapi_server
+
+    fastapi_server --> docker_compose
+    streamlit_app --> docker_compose
+    dockerfile --> docker_compose
+    docker_compose --> github_ci
+"""
+
+    st.markdown(f"```mermaid\n{flowchart_mermaid}\n```")
+
+    st.subheader("Subsystem Architectural Specifications")
+
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        st.markdown("#### 1. Ingestion & Provenance")
+        st.markdown(
+            "- **Falah 2D Arrow:** 6,400 axial slices (5,120 train / 1,280 test).\n"
+            "- **OASIS-1 3D Volumes:** 434 sessions across 416 unique subjects.\n"
+            "- **Zero-Leakage Splitting:** Partitioned strictly by `participant_id` (70/15/15).\n"
+            "- **Clinical Mapping:** Validated CDR 0.0, 0.5, 1.0, and 2.0 scores."
+        )
+
+    with c2:
+        st.markdown("#### 2. Models & Optimization")
+        st.markdown(
+            "- **Custom Medical CNN:** 4-block deep CNN with LeakyReLU (~1.2M params).\n"
+            "- **Medical ResNets:** ResNet-18 (~11.5M) and ResNet-50 (~24.5M).\n"
+            "- **Vision Transformer:** $16\\times 16$ patch self-attention (~9.8M).\n"
+            "- **Loss Balancing:** Inverse-frequency weighted Cross-Entropy & Focal loss."
+        )
+
+    with c3:
+        st.markdown("#### 3. Explainability & Serving")
+        st.markdown(
+            "- **Grad-CAM:** Gradient backpropagation through final conv layers.\n"
+            "- **ViT Rollout:** Multi-head self-attention token propagation.\n"
+            "- **FastAPI Backend:** OpenAPI documentation at `http://localhost:8000/docs`.\n"
+            "- **Containerization:** Production Dockerfile & dual-service Compose."
+        )

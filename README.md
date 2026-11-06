@@ -46,7 +46,109 @@ The platform provides a unified data governance layer seamlessly integrating bot
 
 ---
 
-## 🏛️ System Architecture
+## 🏛️ Application Flowchart & System Architecture
+
+### End-to-End System Workflow Flowchart
+
+```mermaid
+flowchart TD
+    %% User and Client Interfaces
+    subgraph UI_API["Client and User Interfaces"]
+        streamlit_app["Streamlit Research Studio - 10 Interactive Pages on Port 8501"]
+        fastapi_server["FastAPI REST Microservice - OpenAPI and Swagger on Port 8000"]
+    end
+
+    %% Data Ingestion Layer
+    subgraph DATA_LAYER["Unified Multi-Cohort Ingestion and Governance"]
+        falah_data["Falah Alzheimer MRI - 2D Axial Arrow Slices 6400 Images"]
+        oasis_data["OASIS-1 Cohort - 3D Volumetric T1 NIfTI and Analyze 7.5"]
+        falah_loader["FalahDatasetLoader - Verification and Hash Duplicate Scan"]
+        oasis_loader["OASIS1DatasetLoader - Ingestion and CDR Clinical Mapping"]
+        oasis_manifest["OASIS1ManifestManager - Participant-Level Disjoint 70/15/15 Split"]
+        falah_leakage_warn["Falah Provenance Audit - Slice Leakage Warning"]
+    end
+
+    %% Preprocessing Pipeline
+    subgraph PREPROC["Radiometric Preprocessing and Augmentation Engine"]
+        norm_engine["Intensity Normalization - Min-Max Scaling 0 to 1 or Z-Score"]
+        aug_engine["Spatial Augmentation - Rotations, Flips, and Affine Transforms"]
+        weight_engine["Inverse-Frequency Balancing - Weighted Cross-Entropy Weights"]
+    end
+
+    %% Model Zoo
+    subgraph MODELS["Deep Learning Model Zoo and Baselines"]
+        cnn_model["Custom Medical CNN - 4-Block Conv2D + BatchNorm + LeakyReLU"]
+        resnet_model["ResNet-18 / ResNet-50 - Deep Residual Transfer Learning"]
+        vit_model["Vision Transformer ViT - 16x16 Patch Self-Attention"]
+        sim_engine["Simulation Engine - NumPy Zero-Dependency Baseline"]
+    end
+
+    %% Training & Tracking
+    subgraph TRAIN["Training and Optimization Pipeline"]
+        loss_fn["Loss Functions - Weighted Cross-Entropy and Focal Loss"]
+        optimizer["Optimization - AdamW and Cosine Annealing LR Scheduler"]
+        trainer["UnifiedMRITrainer - Live Metrics Tracking and Early Stopping"]
+        checkpoints[("Model Checkpoints Store - pt, pth, keras, and json in models")]
+    end
+
+    %% Evaluation & Explainability
+    subgraph EVAL_XAI["Diagnostic Evaluation and Explainable AI"]
+        eval_engine["Clinical Evaluation - Confusion Matrix, Sens, Spec, Macro-F1"]
+        roc_engine["Multi-Class ROC Analysis - One-vs-Rest AUC and 95% Bootstrap CI"]
+        gradcam["Grad-CAM Engine - Convolutional Feature Map Gradients"]
+        vit_rollout["ViT Attention Rollout - Multi-Head Attention Propagation"]
+        heatmaps["Radiometric Overlays - Jet and Magma Color Overlays on Slices"]
+    end
+
+    %% Deployment & Infrastructure
+    subgraph DEPLOY["Production Deployment and CI/CD Automation"]
+        docker_compose["Docker Compose Orchestration - Dual Service api 8000 + web 8501"]
+        dockerfile["Multi-Stage Dockerfile - Python 3.11-slim + PyTorch CPU/CUDA"]
+        github_ci["GitHub Actions CI Matrix - Automated Testing on Python 3.11 and 3.12"]
+    end
+
+    %% Flow Connections
+    falah_data --> falah_loader
+    oasis_data --> oasis_loader
+    oasis_loader --> oasis_manifest
+    falah_loader --> falah_leakage_warn
+
+    falah_loader --> norm_engine
+    oasis_manifest --> norm_engine
+    norm_engine --> aug_engine
+    falah_loader --> weight_engine
+
+    aug_engine --> trainer
+    weight_engine --> loss_fn
+    loss_fn --> trainer
+    optimizer --> trainer
+
+    cnn_model --> trainer
+    resnet_model --> trainer
+    vit_model --> trainer
+    sim_engine --> trainer
+
+    trainer --> checkpoints
+    checkpoints --> eval_engine
+    checkpoints --> gradcam
+    checkpoints --> vit_rollout
+
+    eval_engine --> roc_engine
+    gradcam --> heatmaps
+    vit_rollout --> heatmaps
+
+    heatmaps --> streamlit_app
+    heatmaps --> fastapi_server
+    roc_engine --> streamlit_app
+    checkpoints --> fastapi_server
+
+    fastapi_server --> docker_compose
+    streamlit_app --> docker_compose
+    dockerfile --> docker_compose
+    docker_compose --> github_ci
+```
+
+### Complete Project Structure
 
 ```
 Falah_Alzheimer_MRI/
@@ -65,6 +167,18 @@ Falah_Alzheimer_MRI/
 │   │   ├── bug_report.md               # Structured issue template for clinical bugs
 │   │   └── feature_request.md          # Architectural proposal template
 │   └── pull_request_template.md        # Medical AI code review & data governance checklist
+│
+├── docs/                               # DOCUMENTATION ASSETS & CLINICAL SAMPLES
+│   └── assets/
+│       └── samples/                    # Representative Train & Test MRI scans
+│           ├── cohort_progression_overview.svg # Multi-stage clinical progression banner
+│           ├── stage_non_demented.svg          # Normal / Cognitively Intact axial slice
+│           ├── stage_very_mild_demented.svg    # Very Mild Impairment axial slice
+│           ├── stage_mild_demented.svg         # Mild Alzheimer's axial slice
+│           └── stage_moderate_demented.svg     # Moderate Dementia axial slice
+│
+├── scripts/                            # CLINICAL UTILITIES & REPRODUCIBILITY TOOLS
+│   └── extract_sample_images.py        # Automated Train & Test MRI slice exporter
 │
 ├── pages/                              # STREAMLIT RESEARCH STUDIO (10 INTERACTIVE PAGES)
 │   ├── 2_Dataset_Management.py         # Arrow & OASIS-1 inspection, indexing, & manifest export
@@ -132,6 +246,71 @@ Falah_Alzheimer_MRI/
     ├── test_oasis1_integration.py      # OASIS-1 mock validation, matching, & zero-leakage tests
     └── test_api.py                     # FastAPI TestClient endpoint verification
 ```
+
+---
+
+## 🖼️ Representative Train & Test MRI Image Gallery
+
+NeuroVision classifies brain MRI scans into four standardized clinical cognitive impairment stages across both the **Training Partition (80%)** and the **Testing Partition (20%)**.
+
+### Cross-Cohort Disease Progression Spectrum
+
+<p align="center">
+  <img src="docs/assets/samples/cohort_progression_overview.svg" alt="NeuroVision 2.0 Alzheimer Progression Spectrum" width="100%"/>
+</p>
+
+### Detailed Clinical Stage Profiles & Radiological Hallmarks
+
+| Stage Name | Clinical Dementia Rating (CDR) | Training Cohort (80%) | Testing Cohort (20%) | Total Slices | Class Weight | Radiological MRI Hallmarks |
+| :--- | :---: | :---: | :---: | :---: | :---: | :--- |
+| **Non-Demented** | `CDR 0.0` | **2,560** (50.0%) | **640** (50.0%) | **3,200** (50.0%) | `0.5000` | Normal ventricular morphology; preserved bilateral hippocampal volume; intact cortical thickness; tight sulci. |
+| **Very Mild Demented** | `CDR 0.5` | **1,792** (35.0%) | **448** (35.0%) | **2,240** (35.0%) | `0.7143` | Subtle enlargement of temporal horns of lateral ventricles; early widening of the choroid fissure; minimal sulcal opening. |
+| **Mild Demented** | `CDR 1.0` | **717** (14.0%) | **179** (14.0%) | **896** (14.0%) | `1.7857` | Moderate ventriculomegaly; noticeable bilateral hippocampal atrophy (~30-40% volume reduction); widened cortical sulci. |
+| **Moderate Demented** | `CDR 2.0` | **51** (1.0%) | **13** (1.0%) | **64** (1.0%) | `25.0000` | Severe hydrocephalus *ex vacuo*; severe global cerebral atrophy; marked hippocampal collapse (>60% volume loss); gaping sulci. |
+
+### Visual Slice Gallery (Anatomical & Radiometric Landmarks)
+
+<table align="center" width="100%">
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/assets/samples/stage_non_demented.svg" width="95%"/><br/>
+      <b>Figure 1A: Non-Demented (CDR 0.0)</b><br/>
+      <sub>Cognitively Intact • Full Parenchymal Volume</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/assets/samples/stage_very_mild_demented.svg" width="95%"/><br/>
+      <b>Figure 1B: Very Mild Impairment (CDR 0.5)</b><br/>
+      <sub>Questionable Dementia • Early Medial Temporal Atrophy</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/assets/samples/stage_mild_demented.svg" width="95%"/><br/>
+      <b>Figure 1C: Mild Dementia (CDR 1.0)</b><br/>
+      <sub>Clinical Alzheimer's • Ventriculomegaly &amp; Sulcal Widening</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/assets/samples/stage_moderate_demented.svg" width="95%"/><br/>
+      <b>Figure 1D: Moderate Dementia (CDR 2.0)</b><br/>
+      <sub>Severe Atrophy • Severe Ventriculomegaly Ex Vacuo</sub>
+    </td>
+  </tr>
+</table>
+
+### Automated Sample Extraction Tool
+
+To export high-resolution native PNG images directly from the local Hugging Face Arrow partitions for both the `train` and `test` splits, run the automated sample extraction utility:
+
+```bash
+python scripts/extract_sample_images.py
+```
+
+This utility performs:
+1. Integrity verification on the `train` (5,120 slices) and `test` (1,280 slices) splits.
+2. Extraction of representative native-resolution PNG slices for each of the 4 classes.
+3. Generation of the aggregated `falah_mri_samples_grid.png` comparison gallery in `docs/assets/samples/`.
+
+---
 
 ---
 

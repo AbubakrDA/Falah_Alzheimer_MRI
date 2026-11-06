@@ -63,14 +63,24 @@ if dataset_choice == "Falah Alzheimer MRI":
 
     st.info(f"ℹ️ **Provenance & Methodological Limitation:** {summary['provenance_limitation']}")
 
-    st.markdown("### Sample Image Inspection")
-    split_to_view = st.selectbox("Split to preview", ["train", "val", "test"])
-    samples = loader.get_sample_images(split=split_to_view, count=8)
-    cols = st.columns(4)
-    for i, s in enumerate(samples[:8]):
-        col = cols[i % 4]
-        with col:
-            col.image(s["image"], caption=f"Idx {s['index']}: {s['class_name']}", use_container_width=True)
+    st.markdown("### Sample Image Inspection (Train, Val, & Test Splits)")
+    c_split, c_filter, c_cnt = st.columns(3)
+    with c_split:
+        split_to_view = st.selectbox("Split to preview", ["train", "val", "test"])
+    with c_filter:
+        class_filter = st.selectbox("Class Filter", ["All"] + loader.class_names)
+    with c_cnt:
+        count_to_view = st.slider("Sample Count", 4, 16, 8, step=4)
+
+    samples = loader.get_sample_images(split=split_to_view, count=count_to_view, class_filter=class_filter)
+    if samples:
+        cols = st.columns(4)
+        for i, s in enumerate(samples):
+            col = cols[i % 4]
+            with col:
+                col.image(s["image"], caption=f"Idx {s['index']}: {s['class_name']}", use_container_width=True)
+    else:
+        st.info("No samples match the selected filter.")
 
 else:
     st.subheader("OASIS-1 Cohort Management (Manual Ingestion & Manifest)")

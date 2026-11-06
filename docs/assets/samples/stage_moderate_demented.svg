@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#121824"/>
+      <stop offset="100%" stop-color="#080b10"/>
+    </radialGradient>
+    <radialGradient id="parenchymaMod" cx="50%" cy="48%" r="46%">
+      <stop offset="0%" stop-color="#7c8a9e"/>
+      <stop offset="65%" stop-color="#334155"/>
+      <stop offset="90%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </radialGradient>
+    <linearGradient id="ventricleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#000000"/>
+      <stop offset="100%" stop-color="#06090f"/>
+    </linearGradient>
+    <filter id="mriBlur" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="1.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background Card -->
+  <rect width="400" height="480" rx="16" fill="url(#bgGlow)" stroke="#1e293b" stroke-width="2"/>
+  
+  <!-- Header Badge -->
+  <rect x="20" y="20" width="190" height="26" rx="6" fill="#b91c1c" fill-opacity="0.3" stroke="#ef4444" stroke-width="1.2"/>
+  <text x="30" y="37" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" fill="#f87171">CDR 2.0 • MODERATE</text>
+
+  <rect x="270" y="20" width="110" height="26" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+  <text x="282" y="37" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#94a3b8">TRAIN / TEST</text>
+
+  <!-- Title & Subtitle -->
+  <text x="20" y="72" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="800" fill="#f8fafc">Moderate Dementia Stage</text>
+  <text x="20" y="90" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#64748b">Severe Atrophy • Severe Ventriculomegaly Ex Vacuo</text>
+
+  <!-- MRI Scan Display Window -->
+  <g transform="translate(40, 105)">
+    <!-- Outer Calvarium -->
+    <ellipse cx="160" cy="155" rx="138" ry="152" fill="#1e293b" stroke="#64748b" stroke-width="3" opacity="0.6"/>
+    <ellipse cx="160" cy="155" rx="134" ry="148" fill="#090d16" stroke="#334155" stroke-width="1.5"/>
+
+    <!-- Large Extra-axial Subarachnoid CSF Space (Cortical Retraction) -->
+    <!-- Brain Parenchyma -->
+    <path d="M 160,32 
+             C 216,32 268,82 268,155 
+             C 268,218 216,270 160,270 
+             C 104,270 52,218 52,155 
+             C 52,82 104,32 160,32 Z" 
+          fill="url(#parenchymaMod)" filter="url(#mriBlur)"/>
+
+    <!-- Profoundly Gaping Sulci (Severe Global Cortical Thinning) -->
+    <path d="M 58,115 Q 100,134 122,110 M 262,115 Q 220,134 198,110 
+             M 70,195 Q 110,178 130,200 M 250,195 Q 210,178 190,200
+             M 78,75 Q 112,92 132,70 M 242,75 Q 208,92 188,70
+             M 160,35 L 160,75 M 160,235 L 160,270" 
+          stroke="#05070a" stroke-width="5.5" fill="none" opacity="0.95"/>
+
+    <!-- Broad Interhemispheric Fissure -->
+    <line x1="160" y1="28" x2="160" y2="272" stroke="#000000" stroke-width="5.0" opacity="0.95"/>
+
+    <!-- Severely Dilated Lateral Ventricles (Hydrocephalus Ex Vacuo) -->
+    <!-- Left Ventricle (Massive Dilation) -->
+    <path d="M 144,92 C 128,120 110,150 120,190 C 135,212 152,192 154,155 C 156,122 156,102 144,92 Z" 
+          fill="url(#ventricleGrad)" stroke="#000000" stroke-width="2.8"/>
+    <!-- Right Ventricle (Massive Dilation) -->
+    <path d="M 176,92 C 192,120 210,150 200,190 C 185,212 168,192 166,155 C 164,122 164,102 176,92 Z" 
+          fill="url(#ventricleGrad)" stroke="#000000" stroke-width="2.8"/>
+
+    <!-- Gaping Third Ventricle -->
+    <rect x="154" y="135" width="12" height="48" rx="4" fill="#000000"/>
+
+    <!-- End-Stage Hippocampal Atrophy with Gaping Temporal Horns -->
+    <ellipse cx="112" cy="202" rx="6" ry="4" fill="#1e293b" opacity="0.85"/>
+    <ellipse cx="208" cy="202" rx="6" ry="4" fill="#1e293b" opacity="0.85"/>
+    <!-- Gaping CSF Space in Temporal Horn -->
+    <ellipse cx="102" cy="202" rx="10" ry="12" fill="#000000"/>
+    <ellipse cx="218" cy="202" rx="10" ry="12" fill="#000000"/>
+    
+    <!-- Orientation Markers -->
+    <text x="156" y="14" font-family="monospace" font-size="11" font-weight="700" fill="#64748b">A</text>
+    <text x="156" y="300" font-family="monospace" font-size="11" font-weight="700" fill="#64748b">P</text>
+    <text x="18" y="158" font-family="monospace" font-size="11" font-weight="700" fill="#64748b">R</text>
+    <text x="296" y="158" font-family="monospace" font-size="11" font-weight="700" fill="#64748b">L</text>
+  </g>
+
+  <!-- Clinical Annotations Footer -->
+  <rect x="20" y="415" width="360" height="50" rx="8" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+  <circle cx="36" cy="433" r="5" fill="#ef4444"/>
+  <text x="50" y="437" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">Ventricles: Severe ventriculomegaly ex vacuo</text>
+  <circle cx="36" cy="451" r="5" fill="#ef4444"/>
+  <text x="50" y="455" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#94a3b8">Hippocampus: Severe global atrophy (>60% volume loss)</text>
+</svg>

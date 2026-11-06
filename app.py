@@ -58,7 +58,7 @@ st.caption("Advanced Neuroimaging AI Architecture for Alzheimer's Staging & Mult
 # Navigation Mode
 nav_mode = st.sidebar.radio(
     "Navigation Menu",
-    options=["📁 Dataset Management", "🧠 Clinical Diagnosis & Inference"],
+    options=["📁 Dataset Management", "🧠 Clinical Diagnosis & Inference", "🗺️ System Flowchart & Architecture"],
     index=0,
 )
 
@@ -129,23 +129,75 @@ if nav_mode == "📁 Dataset Management":
                 )
 
             with tab_samples:
-                st.markdown("#### Sample Brain MRI Slices")
-                sel_class = st.selectbox("Select Class to View Samples:", options=info["class_names"], index=0)
-                sel_idx = info["class_names"].index(sel_class)
+                st.markdown("#### 🖼️ Representative Train & Test MRI Slice Gallery")
+                gallery_view = st.radio(
+                    "Select Gallery Mode:",
+                    ["Multi-Class Progression (Train vs. Test)", "Deep Split Explorer"],
+                    horizontal=True,
+                )
 
-                # Filter samples of selected class
-                sample_cols = st.columns(4)
-                count = 0
-                for item in falah_loader.raw_train:
-                    if int(item["label"]) == sel_idx:
-                        sample_cols[count].image(
-                            item["image"].resize((200, 200)),
-                            caption=f"{sel_class} (Slice #{count+1})",
-                            use_container_width=True,
-                        )
-                        count += 1
-                        if count >= 4:
+                if gallery_view == "Multi-Class Progression (Train vs. Test)":
+                    st.write(
+                        "Comparative axial MRI slices across all 4 cognitive impairment stages from both the "
+                        "**Training Split** (80% partition) and **Testing Split** (20% evaluation partition)."
+                    )
+
+                    # Display side-by-side comparison for Train and Test
+                    for split_label, split_ds, badge_color in [
+                        ("Training Split (5,120 Slices - 80%)", falah_loader.raw_train, "blue"),
+                        ("Testing Split (1,280 Slices - 20%)", falah_loader.raw_test, "green"),
+                    ]:
+                        st.markdown(f"##### :{badge_color}[{split_label}]")
+                        p_cols = st.columns(4)
+                        for c_idx, c_name in enumerate(info["class_names"]):
+                            # Find first representative slice for this class
+                            sample_found = None
+                            for idx in range(len(split_ds)):
+                                if int(split_ds[idx]["label"]) == c_idx:
+                                    sample_found = split_ds[idx]
+                                    break
+
+                            with p_cols[c_idx]:
+                                if sample_found:
+                                    img_pil = sample_found["image"]
+                                    st.image(
+                                        img_pil.resize((200, 200)),
+                                        caption=f"{c_name.replace('_', ' ')} (Idx #{idx})",
+                                        use_container_width=True,
+                                    )
+                                    st.caption(f"Native: {img_pil.size} • Mode: {img_pil.mode}")
+                                else:
+                                    st.info(f"No sample for {c_name}")
+
+                else:
+                    st.write("Browse consecutive slices within a specific partition and class category:")
+                    col_split, col_cls, col_cnt = st.columns(3)
+                    with col_split:
+                        chosen_split = st.selectbox("Partition", ["train", "test"])
+                    with col_cls:
+                        chosen_class = st.selectbox("Class Filter", ["All"] + info["class_names"])
+                    with col_cnt:
+                        num_samples = st.slider("Sample Count", 4, 16, 8, step=4)
+
+                    ds_to_browse = falah_loader.raw_train if chosen_split == "train" else falah_loader.raw_test
+                    target_label_idx = info["class_names"].index(chosen_class) if chosen_class != "All" else None
+
+                    filtered_items = []
+                    for idx in range(len(ds_to_browse)):
+                        lbl = int(ds_to_browse[idx]["label"])
+                        if target_label_idx is None or lbl == target_label_idx:
+                            filtered_items.append((idx, ds_to_browse[idx]["image"], info["class_names"][lbl]))
+                        if len(filtered_items) >= num_samples:
                             break
+
+                    grid_cols = st.columns(4)
+                    for i, (orig_idx, img_obj, c_name) in enumerate(filtered_items):
+                        with grid_cols[i % 4]:
+                            st.image(
+                                img_obj.resize((180, 180)),
+                                caption=f"#{orig_idx} - {c_name}",
+                                use_container_width=True,
+                            )
 
             with tab_leakage:
                 st.markdown("#### Cross-Split Duplicate & Slice-Leakage Analysis")
